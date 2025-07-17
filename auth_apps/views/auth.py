@@ -1,18 +1,15 @@
+from rest_framework.generics import DestroyAPIView
 from django.utils.timezone import now
 from drf_spectacular.utils import extend_schema
 from rest_framework.generics import DestroyAPIView
 from rest_framework.response import Response
-from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+from rest_framework.status import HTTP_200_OK
+from rest_framework_simplejwt.views import TokenObtainPairView
+from rest_framework_simplejwt.views import TokenRefreshView
 
 from auth_apps.models import User, Sessions
 from auth_apps.serializer import SessionModelSerializer
 
-
-from rest_framework.response import Response
-from rest_framework_simplejwt.views import TokenObtainPairView
-from rest_framework.status import HTTP_200_OK, HTTP_400_BAD_REQUEST
-from django.utils.timezone import now
-from drf_spectacular.utils import extend_schema
 
 @extend_schema(tags=['auth'])
 class CustomerTokenObtainPairView(TokenObtainPairView):
@@ -36,7 +33,6 @@ class CustomerTokenObtainPairView(TokenObtainPairView):
             user.last_login = now()
             user.save(update_fields=["last_login"])
         return original_response
-
 
 
 @extend_schema(tags=['auth'])

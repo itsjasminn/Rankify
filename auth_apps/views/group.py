@@ -27,14 +27,13 @@ class StudentModelViewSet(ModelViewSet):
         query = query.filter(role=User.RoleType.Student)
         return query
 
+
 @extend_schema(tags=['admin-groups'])
 class GroupModelViewSet(ModelViewSet):
     serializer_class = GroupModelSerializer
     queryset = Group.objects.all()
     permission_classes = [IsAdmin]
 
-
-# ===========================================================================
 
 @extend_schema(tags=['admin'])
 class LeaderboardAPIView(ListAPIView):
