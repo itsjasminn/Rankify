@@ -8,7 +8,7 @@ from rest_framework.viewsets import ModelViewSet
 from apps.models import Homework, Submission, Grade
 from apps.permissions import IsTeacher
 from apps.serializer import HomeworkModelSerializer, SubmissionModelSerialize, GradeModelSerializer
-from auth_apps.models import Group, User
+from auth_apps.models import Group
 from auth_apps.serializer import GroupModelSerializer
 
 
@@ -24,6 +24,7 @@ class TeacherModelViewSet(ModelViewSet):
         serializer.save(teacher=request.user)
         return Response(serializer.data, status=HTTPStatus.CREATED)
 
+
 @extend_schema(tags=['teachers'])
 class TeacherGroupListAPIView(ListAPIView):
     serializer_class = GroupModelSerializer
@@ -32,6 +33,7 @@ class TeacherGroupListAPIView(ListAPIView):
 
     def get_queryset(self):
         return self.queryset.filter(teacher=self.request.user)
+
 
 @extend_schema(tags=['teachers'])
 class TeacherSubmissionsListAPIView(ListAPIView):
@@ -51,8 +53,6 @@ class TeacherGradeUpdateAPIView(UpdateAPIView):
     lookup_field = 'pk'
 
 
-
-
 @extend_schema(tags=['teachers'])
 class TeacherLeaderboardAPIView(ListAPIView):
     serializer_class = GradeModelSerializer
@@ -62,10 +62,3 @@ class TeacherLeaderboardAPIView(ListAPIView):
     def get_queryset(self):
         group_id = self.kwargs['pk']
         return Grade.objects.filter(submission__homework__group_id=group_id)
-
-
-
-
-
-
-

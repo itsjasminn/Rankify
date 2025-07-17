@@ -427,7 +427,6 @@ class GradeAdmin(admin.ModelAdmin):
     reset_teacher_grades.short_description = "O'qituvchi baholarini tozalash"
 
 
-# Admin interfeys uchun qo'shimcha sozlamalar
 admin.site.site_header = "Homework Management System"
 admin.site.site_title = "HMS Admin"
 admin.site.index_title = "Boshqaruv Paneli"

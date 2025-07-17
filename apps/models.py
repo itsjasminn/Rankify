@@ -58,22 +58,22 @@ class SubmissionFile(Model):
 
 class Grade(Model):
     submission = ForeignKey('apps.Submission', on_delete=CASCADE, related_name='grades')
-    # AI baholari
+
     ai_task_completeness = DecimalField(max_digits=5, decimal_places=2)
     ai_code_quality = DecimalField(max_digits=5, decimal_places=2)
     ai_correctness = DecimalField(max_digits=5, decimal_places=2)
     ai_total = DecimalField(max_digits=5, decimal_places=2)
-    # Final baho (o'qituvchi tomonidan tahrirlangan)
+
     final_task_completeness = DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
     final_code_quality = DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
     final_correctness = DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
     teacher_total = DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
-    # Fikrlar (feedbacklar)
+
     ai_feedback = TextField(null=True, blank=True)
     task_completeness_feedback = TextField(null=True, blank=True)
     code_quality_feedback = TextField(null=True, blank=True)
     correctness_feedback = TextField(null=True, blank=True)
-    # Tahrirlagan o‘qituvchi
+
     modified_by_teacher = ForeignKey('auth_apps.User', on_delete=SET_NULL, null=True, blank=True)
 
     created_at = DateTimeField(auto_now_add=True)
