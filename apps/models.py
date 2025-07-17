@@ -29,8 +29,8 @@ class Homework(Model):
     start_date = DateField()
     deadline = DateTimeField()
     line_limit = IntegerField()
-    teacher = ForeignKey('auth_apps.User', on_delete=CASCADE, related_name='homeworks')
-    group = ForeignKey('auth_apps.Group', on_delete=CASCADE, related_name='homeworks')
+    teacher = ForeignKey('authenticate.User', on_delete=CASCADE, related_name='homeworks')
+    group = ForeignKey('authenticate.Group', on_delete=CASCADE, related_name='homeworks')
     file_extensions = CharField(max_length=255,choices=FileType,default=FileType.TXT)
     ai_grading_prompt = TextField()
     created_at = DateTimeField(auto_now_add=True)
@@ -41,7 +41,7 @@ class Homework(Model):
 
 class Submission(Model):
     homework = ForeignKey('apps.Homework', on_delete=CASCADE, related_name='submissions')
-    student = ForeignKey('auth_apps.User', on_delete=CASCADE, related_name='submissions')
+    student = ForeignKey('authenticate.User', on_delete=CASCADE, related_name='submissions')
     submitted_at = DateTimeField(auto_now_add=True)
     ai_grade = IntegerField()
     final_grade = IntegerField()
@@ -74,7 +74,7 @@ class Grade(Model):
     code_quality_feedback = TextField(null=True, blank=True)
     correctness_feedback = TextField(null=True, blank=True)
 
-    modified_by_teacher = ForeignKey('auth_apps.User', on_delete=SET_NULL, null=True, blank=True)
+    modified_by_teacher = ForeignKey('authenticate.User', on_delete=SET_NULL, null=True, blank=True)
 
     created_at = DateTimeField(auto_now_add=True)
     updated_at = DateTimeField(auto_now=True)

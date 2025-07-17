@@ -8,8 +8,8 @@ from rest_framework.viewsets import ModelViewSet
 from apps.models import Homework, Submission, Grade
 from apps.permissions import IsTeacher
 from apps.serializer import HomeworkModelSerializer, SubmissionModelSerialize, GradeModelSerializer
-from auth_apps.models import Group
-from auth_apps.serializer import GroupModelSerializer
+from authenticate.models import Group
+from authenticate.serializer import GroupModelSerializer
 
 
 @extend_schema(tags=['teachers-homework'])

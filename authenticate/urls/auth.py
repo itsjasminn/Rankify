@@ -1,6 +1,6 @@
 from django.urls import path
 
-from auth_apps.views import CustomerTokenObtainPairView, CustomerTokenRefreshView, SessionDestroyAPIView
+from authenticate.views import CustomerTokenObtainPairView, CustomerTokenRefreshView, SessionDestroyAPIView
 
 urlpatterns = [
     path('login/', CustomerTokenObtainPairView.as_view(), name='token_obtain_pair'),

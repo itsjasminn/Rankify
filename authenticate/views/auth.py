@@ -7,8 +7,8 @@ from rest_framework.status import HTTP_200_OK
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.views import TokenRefreshView
 
-from auth_apps.models import User, Sessions
-from auth_apps.serializer import SessionModelSerializer
+from authenticate.models import User, Sessions
+from authenticate.serializer import SessionModelSerializer
 
 
 @extend_schema(tags=['auth'])

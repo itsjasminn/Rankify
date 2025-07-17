@@ -54,7 +54,7 @@ class User(AbstractUser):
     avatar = ImageField(upload_to='avatars/', null=True, blank=True)
     USERNAME_FIELD = 'phone'
     REQUIRED_FIELDS = []
-    group = ForeignKey('auth_apps.Group', on_delete=SET_NULL, null=True, blank=True, related_name='users')
+    group = ForeignKey('authenticate.Group', on_delete=SET_NULL, null=True, blank=True, related_name='users')
     objects = CustomUserManager()
 
 
@@ -67,15 +67,15 @@ class Course(Model):
 
 class Group(Model):
     name = CharField(max_length=100)
-    teacher = ForeignKey('auth_apps.User', on_delete=SET_NULL, related_name='teaching_groups', null=True, blank=True)
-    course = ForeignKey('auth_apps.Course', on_delete=SET_NULL, related_name='course_groups', null=True, blank=True)
+    teacher = ForeignKey('authenticate.User', on_delete=SET_NULL, related_name='teaching_groups', null=True, blank=True)
+    course = ForeignKey('authenticate.Course', on_delete=SET_NULL, related_name='course_groups', null=True, blank=True)
 
     def __str__(self):
         return self.name
 
 
 class Sessions(Model):
-    user = ForeignKey('auth_apps.User', on_delete=CASCADE, related_name='sessions')
+    user = ForeignKey('authenticate.User', on_delete=CASCADE, related_name='sessions')
     ip_address = CharField(max_length=200)
     device_name = CharField(max_length=200)
     last_login = DateTimeField(auto_now=True)

@@ -14,6 +14,6 @@ urlpatterns = [
 
 urlpatterns+=[
 
-        path('api/v1/',include('auth_apps.urls')),
+        path('api/v1/', include('authenticate.urls')),
         path('api/v1/',include('apps.urls')),
 ]

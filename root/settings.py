@@ -2,12 +2,10 @@ from datetime import timedelta
 from os import getenv
 from os.path import join
 from pathlib import Path
+
 from dotenv import load_dotenv
+
 load_dotenv()
-
-
-# =============================================================unfoald-admin
-# =-=-=-=-=-=-=-=-=-=-=-=-=-= Unfold CONFIG =-=-=-=-=-=-=-=-=-=-=-=-=-=
 
 from django.urls import reverse_lazy
 from django.utils.translation import gettext_lazy as _
@@ -26,14 +24,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # --------drw--------------
+    # DRF
     'rest_framework',
     'drf_spectacular',
-    # ---------jwt-------------
+    # JWT
     'rest_framework_simplejwt',
-    # --------my app --------
+    # My apps
     'apps',
-    'auth_apps'
+    'authenticate'
 
 ]
 
@@ -114,8 +112,8 @@ MEDIA_ROOT = join(BASE_DIR, 'media')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-AUTH_USER_MODEL = 'auth_apps.User'
-# =====================================================api
+AUTH_USER_MODEL = 'authenticate.User'
+
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated'
@@ -141,7 +139,6 @@ SPECTACULAR_SETTINGS = {
     'COMPONENT_SPLIT_REQUEST': True,
 }
 
-# ==========================================================Jwt
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(days=1),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=7),

@@ -4,9 +4,9 @@ from rest_framework.viewsets import ModelViewSet
 
 from apps.models import Grade
 from apps.serializer import GradeModelSerializer
-from auth_apps.models import User, Group
-from auth_apps.permissions import IsAdmin
-from auth_apps.serializer import UserProfileSerializer, GroupModelSerializer, GroupUpdateSerializer
+from authenticate.models import User, Group
+from authenticate.permissions import IsAdmin
+from authenticate.serializer import UserProfileSerializer, GroupModelSerializer, GroupUpdateSerializer
 
 
 @extend_schema(tags=['admin-teachers'])

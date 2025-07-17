@@ -151,7 +151,7 @@ class UserAdmin(BaseUserAdmin):
         if obj.group:
             return format_html(
                 '<a href="{}">🏫 {}</a><br><small>📚 {}</small>',
-                reverse('admin:auth_apps_group_change', args=[obj.group.pk]),
+                reverse('admin:authenticate_group_change', args=[obj.group.pk]),
                 obj.group.name,
                 obj.group.course.name if obj.group.course else 'Kurs belgilanmagan'
             )
@@ -312,7 +312,7 @@ class CourseAdmin(admin.ModelAdmin):
     def groups_count(self, obj):
         count = obj.course_groups.count()
         if count > 0:
-            url = reverse('admin:auth_apps_group_changelist') + f'?course__id__exact={obj.id}'
+            url = reverse('admin:authenticate_group_changelist') + f'?course__id__exact={obj.id}'
             return format_html('<a href="{}">🏫 {} ta guruh</a>', url, count)
         return '🏫 0 ta guruh'
 
@@ -389,7 +389,7 @@ class GroupAdmin(admin.ModelAdmin):
         if obj.course:
             return format_html(
                 '<a href="{}">📚 {}</a>',
-                reverse('admin:auth_apps_course_change', args=[obj.course.pk]),
+                reverse('admin:authenticate_course_change', args=[obj.course.pk]),
                 obj.course.name
             )
         return format_html('<span style="color: red;">❌ Kurs yo\'q</span>')
@@ -400,7 +400,7 @@ class GroupAdmin(admin.ModelAdmin):
         if obj.teacher:
             return format_html(
                 '<a href="{}">👨‍🏫 {}</a><br><small>📱 {}</small>',
-                reverse('admin:auth_apps_user_change', args=[obj.teacher.pk]),
+                reverse('admin:authenticate_user_change', args=[obj.teacher.pk]),
                 obj.teacher.full_name,
                 obj.teacher.phone
             )
@@ -411,7 +411,7 @@ class GroupAdmin(admin.ModelAdmin):
     def students_count(self, obj):
         count = obj.users.filter(role='student').count()
         if count > 0:
-            url = reverse('admin:auth_apps_user_changelist') + f'?group__id__exact={obj.id}&role__exact=student'
+            url = reverse('admin:authenticate_user_changelist') + f'?group__id__exact={obj.id}&role__exact=student'
             return format_html('<a href="{}">👨‍🎓 {} ta</a>', url, count)
         return '👨‍🎓 0 ta'
 

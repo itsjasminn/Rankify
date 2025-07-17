@@ -5,7 +5,7 @@ from django.urls import reverse
 from rest_framework.test import APIClient
 
 from apps.models import Grade, SubmissionFile, Homework, Submission
-from auth_apps.models import Course, User, Group
+from authenticate.models import Course, User, Group
 
 
 class TestAuth:

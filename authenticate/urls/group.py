@@ -1,8 +1,8 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 
-from auth_apps.views import StudentModelViewSet, TeacherModelViewSet, GroupModelViewSet
-from auth_apps.views import TeacherUpdateAPIView, LeaderboardAPIView, StudentUpdateAPIView
+from authenticate.views import StudentModelViewSet, TeacherModelViewSet, GroupModelViewSet
+from authenticate.views import TeacherUpdateAPIView, LeaderboardAPIView, StudentUpdateAPIView
 
 router = DefaultRouter()
 

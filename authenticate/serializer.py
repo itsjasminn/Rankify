@@ -1,7 +1,7 @@
 from rest_framework import viewsets
 from rest_framework.serializers import ModelSerializer
 
-from auth_apps.models import User, Group, Sessions
+from authenticate.models import User, Group, Sessions
 
 
 class UserProfileSerializer(ModelSerializer):
