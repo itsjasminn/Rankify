@@ -1,0 +1,118 @@
+1) nano /etc/nginx/sites-available/leader_board
+
+2) server {
+    listen       8005;
+    server_name  46.149.68.29;
+
+    location = /favicon.ico { access_log off; log_not_found off; }
+
+    location /static/ {
+        root /var/www/gayrat/LeaderBoardGayrat/;
+    }
+
+    location /media/ {
+        root /var/www/gayrat/LeaderBoardGayrat/;
+    }
+
+    location / {
+        include proxy_params;
+        proxy_pass http://unix:/var/www/gayrat/LeaderBoardGayrat/falcon.sock;
+    }
+}
+
+3) ln -s /etc/nginx/sites-available/leader_board /etc/nginx/sites-enabled/
+
+
+
+4) nano /etc/systemd/system/leader_board.service
+
+
+5)
+    [Unit]
+    Description=gunicorn daemon
+    After=network.target
+
+    [Service]
+    User=root
+    Group=www-data
+    WorkingDirectory=/var/www/gayrat/LeaderBoardGayrat
+    ExecStart=/var/www/gayrat/LeaderBoardGayrat/.venv/bin/gunicorn --workers 3 --bind unix:/var/www/gayrat/LeaderBoardGayrat/falcon.sock root.wsgi:application
+
+    [Install]
+    WantedBy=multi-user.target
+
+
+celery :
+4) nano /etc/systemd/system/celery.service
+
+
+5)
+[Unit]
+Description=Celery Service
+After=network.target
+
+[Service]
+Type=forking
+User=root
+Group=your_user
+WorkingDirectory=/var/www/gayrat/LeaderBoardGayrat
+ExecStart=/var/www/gayrat/LeaderBoardGayrat/.venv/bin/celery -A root.settings worker --loglevel=info --detach
+ExecStop=/bin/pkill -f 'celery worker'
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+
+
+systemctl stop leader_board.service
+systemctl start leader_board.service
+systemctl restart leader_board.service
+systemctl enable leader_board.service
+systemctl status leader_board.service
+sudo systemctl enable nginx.service
+sudo systemctl restart nginx.service
+sudo systemctl stop nginx.service
+sudo systemctl start nginx.service
+sudo systemctl status nginx.service
+
+
+
+sudo systemctl enable celery.service
+sudo systemctl stop celery.service
+sudo systemctl start celery.service
+sudo systemctl status celery.service
+
+
+
+1. comp -> github, gitlab, bitbucket -> server
+
+2. comp -> server
+
+
+
+scp file root@IP:/var/www
+python3 manage.py runserver 0:8004
+
+
+
+/etc/nginx/sites-available/allauth
+
+ln -s /etc/nginx/sites-available/debtapi /etc/nginx/sites-enabled/
+
+/etc/nginx/sites-enabled/
+sudo nginx -t
+
+
+ufw:
+    sudo ufw allow 'Nginx HTTP'
+    sudo ufw allow 22
+    sudo ufw allow 80
+    sudo ufw allow 443
+    sudo ufw allow 8000
+    sudo ufw reload
+
+terminalda ishlatish kerak ohirida:
+    ls -l /var/www/debtapi/falcon.sock
+    sudo chown www-data:www-data /var/www/debtapi/falcon.sock
+    sudo chmod 660 /var/www/debtapi/falcon.sock
+    python manage.py collectstatic

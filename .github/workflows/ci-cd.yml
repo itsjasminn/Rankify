@@ -1,0 +1,60 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+
+      - name: Run tests with pytest
+        env:
+          DJANGO_SETTINGS_MODULE: root.settings
+        run: |
+          python manage.py makemigrations
+          python manage.py migrate
+          pytest
+  build-and-deploy:
+    needs: build-and-test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy to Production via SSH
+        if: github.ref == 'refs/heads/master'
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_KEY }}
+          port: 22
+          script: |
+            cd /var/www/gayrat/LeaderBoardGayrat
+            git fetch origin || true
+            git reset --hard origin/master || true
+            git remote remove origin || true
+            git remote add origin https://github.com/dilshodev-py/LeaderBoardGayrat.git
+            git pull origin master
+            make mig
+            systemctl restart leader_board.service
+            sudo systemctl enable nginx.service
+            sudo systemctl restart nginx.service
+            
+            
