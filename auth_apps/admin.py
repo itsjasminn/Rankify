@@ -129,9 +129,9 @@ class UserAdmin(BaseUserAdmin):
 
     def role_badge(self, obj):
         colors = {
-            'admin': '#dc3545',  # qizil
-            'teacher': '#28a745',  # yashil
-            'student': '#007bff'  # ko'k
+            'admin': '#dc3545',
+            'teacher': '#28a745',
+            'student': '#007bff'
         }
         icons = {
             'admin': '👑',
@@ -245,7 +245,6 @@ class UserAdmin(BaseUserAdmin):
 
     def reset_passwords(self, request, queryset):
         for user in queryset:
-            # Yangi parol: telefon raqamining oxirgi 4 raqami
             new_password = user.phone[-4:]
             user.set_password(new_password)
             user.save()
@@ -332,7 +331,6 @@ class CourseAdmin(admin.ModelAdmin):
     teachers_count.short_description = 'O\'qituvchilar'
 
     def total_homeworks(self, obj):
-        # Bu apps modelidan import qilish kerak bo'ladi
         try:
             from apps.models import Homework
             count = Homework.objects.filter(group__course=obj).count()
@@ -367,7 +365,6 @@ class CourseAdmin(admin.ModelAdmin):
     duplicate_courses.short_description = "Kurslarni nusxa qilish"
 
     def generate_course_report(self, request, queryset):
-        # Bu yerda kurs hisoboti generatsiya qilish logikasi bo'lishi kerak
         self.message_user(request, f'{queryset.count()} ta kurs uchun hisobot yaratildi.')
 
     generate_course_report.short_description = "Kurs hisoboti yaratish"
@@ -447,7 +444,6 @@ class GroupAdmin(admin.ModelAdmin):
 
     def group_performance(self, obj):
         try:
-            # Bu apps modelidan import qilish kerak
             from apps.models import Submission
             submissions = Submission.objects.filter(homework__group=obj, final_grade__isnull=False)
             if submissions.exists():
@@ -466,31 +462,23 @@ class GroupAdmin(admin.ModelAdmin):
     actions = ['assign_teacher', 'move_students', 'create_bulk_homeworks']
 
     def assign_teacher(self, request, queryset):
-        # Bu yerda o'qituvchi tayinlash formasi bo'lishi kerak
         self.message_user(request, f'{queryset.count()} ta guruhga o\'qituvchi tayinlandi.')
 
     assign_teacher.short_description = "O'qituvchi tayinlash"
 
     def move_students(self, request, queryset):
-        # Bu yerda talabalarni ko'chirish formasi bo'lishi kerak
         self.message_user(request, 'Talabalar boshqa guruhga ko\'chirildi.')
 
     move_students.short_description = "Talabalarni ko'chirish"
 
     def create_bulk_homeworks(self, request, queryset):
-        # Bu yerda ommaviy vazifa yaratish formasi bo'lishi kerak
         self.message_user(request, f'{queryset.count()} ta guruh uchun vazifalar yaratildi.')
 
     create_bulk_homeworks.short_description = "Ommaviy vazifa yaratish"
 
 
-
-
-
-# Django admin sozlamalari
 admin.site.site_header = "🎓 Homework Management System"
 admin.site.site_title = "HMS Admin"
 admin.site.index_title = "🏠 Bosh sahifa - Boshqaruv paneli"
 
-# Qo'shimcha modellar import
 from django.db import models
